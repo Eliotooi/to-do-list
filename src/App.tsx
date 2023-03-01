@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import TaskList from './components/TaskList/TaskList';
 
-function App() {
+import AddForm from './components/AddForm/AddForm';
+import useModal from './hooks/useModal';
+
+
+const App: React.FC =()=> {
+  const { isOpen, setIsModalOpen } = useModal();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App' >
+      <div className='container'>
+        <AddForm />
+        <TaskList
+          isModalOpen={isOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+      </div>
     </div>
   );
 }
 
-export default App;
+export default App

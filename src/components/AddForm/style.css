@@ -1,0 +1,29 @@
+.inputContainer {
+  flex-direction: row;
+  display: flex;
+}
+.title {
+  text-align: left;
+}
+.input {
+  width: 200px;
+}
+
+.input-error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  align-self: flex-start;
+}
+
+.container {
+  width: 250px;
+}
+.btnCreate {
+  margin-left: 5px;
+  margin-top: 25px;
+  width: 50px; 
+  height: 25px;
+}
