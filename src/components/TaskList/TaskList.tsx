@@ -1,35 +1,20 @@
 import React from 'react';
-import { useState } from 'react';
-import Modal from '../Modal/Modal';
-import { useAppDispatch, useAppSelector } from '../store/store';
 import './style.css'
-import { toggleTask } from '../store/task/taskSlice';
+import { Task, selectTasks } from '../store/task/taskSlice';
+import { useAppSelector } from '../store/store';
 
-interface Props{
-  isModalOpen: boolean;
+interface Props {
+  openModal: (taskToDisplay: Task) => void;
   setIsModalOpen: (newState: boolean) => void;
+  toggleStatus: (id: string) => void;
 }
 
-const TaskList = ({setIsModalOpen, isModalOpen }: Props) => {
-  // Вынести селекторы в отдельный файл
-  const tasks = useAppSelector(state => state.task.tasks)
-  const dispatch = useAppDispatch()
+const TaskList = ({toggleStatus, openModal }: Props) => {
+  const tasks = useAppSelector(selectTasks)
 
   React.useEffect(() => {
     console.log(tasks)
   }, [tasks])
-
-  const toggleStatus = (id: string) => {
-    dispatch(toggleTask(id))
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
 
   return(
     <>
@@ -43,38 +28,18 @@ const TaskList = ({setIsModalOpen, isModalOpen }: Props) => {
       </div>
      {tasks.map((task, index:number) => (
       <div key={task.id}>
-        <Modal isOpen={isModalOpen} closeModal={closeModal}>
-          <div>
-            <div>
-              <p className='titleModal'>{task.taskName}</p>
-            </div>
-            <div>
-              <p className='description'>Description:</p>
-              <p className='descriptionInfo'>{task.taskDescription}</p>
-            </div>
-            <div className='checkboxContainer'>
-              <p>Status:</p>
-              <input  
-                  type="checkbox" 
-                  checked={task.isDone}
-                  onChange={() => toggleStatus(task.id)}
-                />
-            </div>
-          </div>
-        </Modal>
-        <div style={{width: 500, display: 'flex'}}>
-        <li className='modalContainer' onClick={openModal}>
+        <div className='checkboxContainer'>
+        <li className='modalContainer' onClick={() => openModal(task)}>
           <div className='taskConatainer'>
             <p className='textModalContainer'>{index + 1}</p>
             <p className='textModalContainer'>{task.taskName}</p>
             <p className='textModalContainer'>{task.taskDescription.slice(0, 20)}</p>
           </div>
         </li>
-        <div style={{width:100, backgroundColor:'#cacaca', marginTop: 10, display:'flex'}}>
+        <div className='checkboxStyle'>
           <input 
             checked={task.isDone}
             onChange={() => toggleStatus(task.id)}
-            className='inputModal' 
             type="checkbox"
           />
         </div>
